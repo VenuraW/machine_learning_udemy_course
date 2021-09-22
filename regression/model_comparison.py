@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeRegressor
 
 # Getting the data
 file = open('king_penguin_population.txt')
@@ -47,11 +48,17 @@ sc_y = StandardScaler()
 y_train_scaled = sc_y.fit_transform(y_train)
 y_test_scaled = sc_y.transform(y_test)
 
-# Training the Model
+# Training the SVR Model
 svr_regressor = SVR()
 svr_regressor.fit(x_train_scaled, y_train_scaled)
 svr_score = svr_regressor.score(x_test_scaled, y_test_scaled)
 print("SVR Score: {:.2f}".format(svr_score*100))
+
+# Training the Decision Tree Model
+decision_tree_regressor = DecisionTreeRegressor()
+decision_tree_regressor.fit(x_train, y_train)
+decision_tree_score = decision_tree_regressor.score(x_test, y_test)
+print("Decision Tree Score: {:.2f}".format(decision_tree_score*100))
 
 # Plotting the data
 plt.scatter(x, y, color='red')
@@ -67,6 +74,9 @@ plt.plot(x_grid, polynomial_regressor.predict(x_grid_poly), color='green', label
 
 # Plotting the SVR Model
 plt.plot(x_grid, sc_y.inverse_transform(svr_regressor.predict(sc_x.transform(x_grid))), color='m', label='SVR')
+
+# Plotting the Decision Tree Model
+plt.plot(x_grid, decision_tree_regressor.predict(x_grid), color='c', label="Decision Tree Regressor")
 
 # Plot Features
 plt.xlabel("Year (1967-2003)")
