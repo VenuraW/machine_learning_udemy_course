@@ -6,6 +6,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
 
 # Getting the data
 file = open('king_penguin_population.txt')
@@ -60,6 +61,12 @@ decision_tree_regressor.fit(x_train, y_train)
 decision_tree_score = decision_tree_regressor.score(x_test, y_test)
 print("Decision Tree Score: {:.2f}".format(decision_tree_score*100))
 
+# Training the Random Forest Model
+random_forest_regressor = RandomForestRegressor()
+random_forest_regressor.fit(x_train, np.ravel(y_train))
+random_forest_score = random_forest_regressor.score(x_test, y_test)
+print("Random Forest Score: {:.2f}".format(random_forest_score*100))
+
 # Plotting the data
 plt.scatter(x, y, color='red')
 
@@ -77,6 +84,9 @@ plt.plot(x_grid, sc_y.inverse_transform(svr_regressor.predict(sc_x.transform(x_g
 
 # Plotting the Decision Tree Model
 plt.plot(x_grid, decision_tree_regressor.predict(x_grid), color='c', label="Decision Tree Regressor")
+
+# Plotting the Random Forest Model
+plt.plot(x_grid, random_forest_regressor.predict(x_grid), color='y', label="Random Forest Regressor")
 
 # Plot Features
 plt.xlabel("Year (1967-2003)")
