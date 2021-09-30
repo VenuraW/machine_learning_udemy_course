@@ -15,7 +15,9 @@ models.append({"name": "Logistic Regression",
 # Adding K-Nearest Neighbours Model
 models.append({"name": "K-Nearest Neighbours",
                "classifier": KNeighborsClassifier(),
-               "params": [{'weights': ['uniform', 'distance'], 'algorithm': ['ball_tree', 'kd_tree']}]})
+               "params": [{'weights': ['uniform', 'distance'],
+                           'algorithm': ['ball_tree', 'kd_tree'],
+                           'n_neighbors': [x for x in range(1, 10)]}]})
 
 sorted_classifiers = [0] * len(models)
 
@@ -39,4 +41,4 @@ for model in models:
 
 # Printing models by name and score
 for i in range(len(models)):
-    print("{}. {} Score: {:.2f}%".format(i + 1, sorted_classifiers[i].get_name(), sorted_classifiers[i].get_best_score()*100))
+    print("{}: {}".format(i + 1, sorted_classifiers[i]))

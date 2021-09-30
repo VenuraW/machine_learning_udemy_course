@@ -41,8 +41,8 @@ class Classifier():
             self.is_best_grid = 1
             self._best_score = grid_score
 
-    def get_name(self):
-        return self._name
-
     def get_best_score(self):
         return self._best_score
+
+    def __str__(self):
+        return "{} Score: {:.2f}%".format(self._name, self._best_score*100)
