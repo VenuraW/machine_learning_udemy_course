@@ -1,5 +1,5 @@
 # Importing the libraries
-from preprocessing import split_set
+from preprocessing import x_train_scaled, x_test_scaled, y_train, y_test
 from classifier import Classifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
@@ -12,11 +12,16 @@ models.append({"name": "Logistic Regression",
                "params": [{'penalty': ['l2', 'none'], 'solver':['newton-cg', 'lbfgs']},
                           {'penalty': ['l1', 'l2'], 'solver': ['liblinear']}]})
 
+# Adding K-Nearest Neighbours Model
+models.append({"name": "K-Nearest Neighbours",
+               "classifier": KNeighborsClassifier(),
+               "params": [{'weights': ['uniform', 'distance'], 'algorithm': ['ball_tree', 'kd_tree']}]})
+
 sorted_classifiers = [0] * len(models)
 
 # Training models
 for model in models:
-    classifier = Classifier(model["name"], model["classifier"], split_set)
+    classifier = Classifier(model["name"], model["classifier"], x_train_scaled, x_test_scaled, y_train, y_test)
 
     # Training default model and using grid search to find best classifier
     classifier.train_classifier()
