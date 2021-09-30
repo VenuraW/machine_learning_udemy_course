@@ -1,30 +1,30 @@
 from sklearn.model_selection import GridSearchCV
 
 class Classifier():
-    def __init__(self, name, classifier, dataset):
+    def __init__(self, name, classifier, x_train, x_test, y_train, y_test):
         self._name = name
         self._default_classifier = classifier
         self._grid_classifier = classifier
-        self._X_TRAIN = dataset[0]
-        self._X_TEST = dataset[1]
-        self._Y_TRAIN = dataset[2]
-        self._Y_TEST = dataset[3]
+        self._x_train = x_train
+        self._x_test = x_test
+        self._y_train = y_train
+        self._y_test = y_test
 
     def train_classifier(self):
-        self._default_classifier.fit(self._X_TRAIN, self._Y_TRAIN)
+        self._default_classifier.fit(self._x_train, self._y_train)
 
     def get_score(self):
-        return self._default_classifier.score(self._X_TEST, self._Y_TEST)
+        return self._default_classifier.score(self._x_test, self._y_test)
 
     def train_grid_search(self, params):
         grid_search = GridSearchCV(estimator=self._grid_classifier,
                                    param_grid=params,
                                    scoring='accuracy',
                                    cv=10)
-        self._grid_classifier = grid_search.fit(self._X_TRAIN, self._Y_TRAIN)
+        self._grid_classifier = grid_search.fit(self._x_train, self._y_train)
 
     def get_grid_score(self):
-        return self._grid_classifier.score(self._X_TEST, self._Y_TEST)
+        return self._grid_classifier.score(self._x_test, self._y_test)
 
     def set_best_classifer(self):
         default_score = self.get_score()
