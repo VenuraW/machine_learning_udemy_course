@@ -3,6 +3,7 @@ from preprocessing import x_train_scaled, x_test_scaled, y_train, y_test
 from classifier import Classifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 
 models = []
 
@@ -18,6 +19,14 @@ models.append({"name": "K-Nearest Neighbours",
                "params": [{'weights': ['uniform', 'distance'],
                            'algorithm': ['ball_tree', 'kd_tree'],
                            'n_neighbors': [x for x in range(1, 10)]}]})
+
+# Adding SVM model
+models.append({"name": "Support Vector Machine",
+               "classifier": SVC(),
+               "params": [{'kernel': ['linear', 'sigmoid']},
+                          {'kernel': ['poly'],
+                           'degree': [x for x in range(1, 5)]}]})
+
 
 sorted_classifiers = [0] * len(models)
 
@@ -41,4 +50,4 @@ for model in models:
 
 # Printing models by name and score
 for i in range(len(models)):
-    print("{}: {}".format(i + 1, sorted_classifiers[i]))
+    print("{}. {}".format(i + 1, sorted_classifiers[i]))
