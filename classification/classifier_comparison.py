@@ -4,6 +4,9 @@ from classifier import Classifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 models = []
 
@@ -27,6 +30,26 @@ models.append({"name": "Support Vector Machine",
                           {'kernel': ['poly'],
                            'degree': [x for x in range(1, 5)]}]})
 
+# Adding Naive Bayes
+models.append({"name": "Naive Bayes",
+               "classifier": GaussianNB(),
+               "params": [{'var_smoothing': [x/1e-9 for x in range(1, 10)]}]})
+
+# Adding Decision Tree Classifier
+models.append({"name": "Decision Tree Classifier",
+               "classifier": DecisionTreeClassifier(),
+               "params" : [{'criterion': ['gini', 'entropy'],
+                            'min_samples_split': [x/10 for x in range(1, 5)],
+                            'min_samples_leaf': [x for x in range(1, 5)],
+                            'max_features': ['auto', 'sqrt', 'log2']}]})
+
+# Adding Random Forest Classifier
+models.append({"name": "Random Forest Classifier",
+               "classifier": RandomForestClassifier(),
+               "params": [{'criterion': ['gini', 'entropy'],
+                           'min_samples_split': [x/10 for x in range(1, 5)],
+                           'min_samples_leaf': [x for x in range(1, 5)],
+                           'max_features': ['auto', 'sqrt', 'log2']}]})
 
 sorted_classifiers = [0] * len(models)
 
