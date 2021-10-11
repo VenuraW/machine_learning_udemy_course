@@ -1,8 +1,9 @@
 # Importing the libraries
 import pandas as pd
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, AgglomerativeClustering
 import matplotlib.pyplot as plt
 import plotly.graph_objs as graph_obj
+from scipy.cluster import hierarchy
 
 def display_elbow_method(x, clusters):
     """
@@ -24,6 +25,11 @@ def display_elbow_method(x, clusters):
     plt.xlabel("Range of Clusters {}-{}".format(min(cluster_range), max(cluster_range)))
     plt.ylabel("WCSS Score")
     plt.title("Elbow Method")
+    plt.show()
+
+def display_dendogram(x):
+    Z = hierarchy.linkage(x)
+    hierarchy.dendrogram(Z)
     plt.show()
 
 def display_3dplot(model, x, xaxis, yaxis, zaxis):
@@ -55,14 +61,21 @@ if __name__ == "__main__":
     dataset = pd.read_csv('Mall_Customers.csv')
     x = dataset.iloc[:, 2:].values
 
+    # Finding optimal clusters
     # display_elbow_method(x, 10)
+    # display_dendogram(x)
 
     optimal_no_of_clusters = 6
 
+    # Training KMeans Model
     kmeans_model = KMeans(n_clusters=optimal_no_of_clusters)
-    kmeans_model.fit_predict(x)
+    # kmeans_model.fit_predict(x)
 
-    display_3dplot(kmeans_model, x, 'Age -->', 'Spending Score -->', 'Annual Income -->')
+    # Training Agglomerative Model
+    agglomerative_cluster_model = AgglomerativeClustering(n_clusters=optimal_no_of_clusters)
+    agglomerative_cluster_model.fit_predict(x)
+
+    display_3dplot(agglomerative_cluster_model, x, 'Age -->', 'Spending Score -->', 'Annual Income -->')
 
 
 
