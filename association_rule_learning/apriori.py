@@ -26,6 +26,8 @@ for result in association_results:
     lift = result[2][0][3]
     df = df.append([[items[0], items[1], support, confidence, lift]])
 
-
-
-
+# Sorting and labelling dataframe
+df.columns = ["Item 1", "Item 2", "Support", "Confidence", "Lift"]
+df = df.sort_values(by='Lift', ascending=False)
+df = df.reset_index(drop=True)
+print(df)
